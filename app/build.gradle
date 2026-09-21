@@ -10,8 +10,8 @@ android {
         applicationId 'com.mazenmix.mxlocation'
         minSdk 26
         targetSdk 35
-        versionCode 6
-        versionName '1.1.1'
+        versionCode 7
+        versionName '1.1.2'
     }
 
     buildFeatures {
@@ -34,4 +34,4 @@ android {
     }
 }
 
-// MX Location Android build configuration — v1.1.1.
+// MX Location Android build configuration — v1.1.2.
