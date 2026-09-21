@@ -33,9 +33,18 @@ jobs:
       - name: Build unsigned release APK
         run: gradle --no-daemon :app:assembleRelease
 
-      - name: Upload unsigned APK
+      - name: Collect signing tools
+        run: |
+          mkdir -p signing-tools
+          cp "$ANDROID_HOME/build-tools/35.0.0/lib/apksigner.jar" signing-tools/apksigner.jar
+          cp "$ANDROID_HOME/build-tools/35.0.0/zipalign" signing-tools/zipalign
+
+      - name: Upload unsigned APK and signing tools
         uses: actions/upload-artifact@v4
         with:
-          name: mx-location-android-unsigned
-          path: app/build/outputs/apk/release/app-release-unsigned.apk
+          name: mx-location-android-build
+          path: |
+            app/build/outputs/apk/release/app-release-unsigned.apk
+            signing-tools/apksigner.jar
+            signing-tools/zipalign
           if-no-files-found: error
