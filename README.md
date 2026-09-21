@@ -3,8 +3,8 @@
 Independent Android edition of **MX Location** by MazenmiX.
 
 ## Current version
-- Version: 1.1.0
-- Version code: 5
+- Version: 1.1.1
+- Version code: 6
 - Package: `com.mazenmix.mxlocation`
 
 ## Features
@@ -17,6 +17,7 @@ Independent Android edition of **MX Location** by MazenmiX.
 - Joystick movement
 - Background keep-alive controls
 - Built-in GitHub update checker
+- Official MX adaptive launcher icon with Android 13 themed-icon support
 
 ## Update channel
 The app checks `version.json` in this repository. When a higher version code is published, MX Location shows **Update Available** and can download the APK.
