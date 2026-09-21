@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>MX Location</title>
+<style>
+:root{--bg:#07090b;--panel:#11151a;--panel2:#171c22;--line:#29323b;--text:#f6f8fa;--muted:#94a0ab;--teal:#53d8cc;--blue:#5eb9e8;--orange:#ffa15d;--red:#ff6670;--green:#78e8a8;--shadow:0 18px 46px rgba(0,0,0,.44)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}html,body{margin:0;height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif}.app{height:100%;display:flex;flex-direction:column;background:radial-gradient(circle at 35% -10%,rgba(83,216,204,.12),transparent 34%),var(--bg);padding-top:max(6px,env(safe-area-inset-top))}
+.header{height:58px;display:flex;align-items:center;gap:10px;padding:8px 13px}.logo{width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,#54d6ca,#3e879f);display:grid;place-items:center;box-shadow:0 9px 22px rgba(0,0,0,.34)}.logo:before{content:"";width:15px;height:15px;border:3px solid #071112;border-radius:50%;box-shadow:0 0 0 3px rgba(255,255,255,.7)}.brand{flex:1;min-width:0}.brand b{display:block;font-size:18px;letter-spacing:-.35px}.brand small{display:block;font-size:10.5px;color:var(--muted);margin-top:2px}.pill{border:1px solid var(--line);background:#101419;color:#cad2d9;border-radius:999px;padding:6px 8px;font-size:9.5px;font-weight:800;white-space:nowrap}.pill.active{border-color:#28756d;background:#0d2926;color:#78eee2}.pill.good{border-color:#2c7048;background:#10291a;color:#91efb7}.pill.bad{border-color:#74343b;background:#2b1216;color:#ff9da5}.pill.update{border-color:#7b5a25;background:#2b2010;color:#ffc779}
+.searchWrap{padding:0 11px 8px;position:relative;z-index:30}.search{display:flex;align-items:center;gap:7px;background:rgba(17,21,26,.97);border:1px solid #2b343d;border-radius:16px;padding:0 10px;box-shadow:0 12px 28px rgba(0,0,0,.24);backdrop-filter:blur(12px)}.search input{min-width:0;flex:1;border:0;outline:0;background:transparent;color:white;font-size:14px;padding:11px 2px}.search button{border:0;background:transparent;color:#cfd6dc;font-size:18px;padding:7px}.results{display:none;position:absolute;left:11px;right:11px;top:47px;max-height:225px;overflow:auto;background:#12161b;border:1px solid #2c343d;border-radius:14px;box-shadow:var(--shadow)}.result{padding:10px 12px;border-bottom:1px solid #232b32;font-size:13px}.result:last-child{border-bottom:0}.result small{display:block;color:var(--muted);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mapWrap{position:relative;flex:1;min-height:0;margin:0 9px;border-radius:23px;overflow:hidden;border:1px solid #293139;background:#101317;box-shadow:0 18px 45px rgba(0,0,0,.29)}#map{position:absolute;inset:0;overflow:hidden;touch-action:none;background:#101317}.tile{position:absolute;width:256px;height:256px;user-select:none;pointer-events:none;will-change:transform;opacity:0;transition:opacity .12s linear}.tile.loaded{opacity:1}.routeCanvas{position:absolute;inset:0;width:100%;height:100%;z-index:3;pointer-events:none}.pin{position:absolute;width:30px;height:42px;transform:translate(-50%,-92%);z-index:6;filter:drop-shadow(0 7px 9px rgba(0,0,0,.55));transition:left .13s linear,top .13s linear}.pin:before{content:"";position:absolute;left:3px;top:2px;width:24px;height:24px;background:linear-gradient(135deg,var(--teal),#35999a);border:2px solid white;border-radius:50% 50% 50% 5px;transform:rotate(-45deg)}.pin:after{content:"";position:absolute;left:11px;top:10px;width:8px;height:8px;border-radius:50%;background:#0a1011}.cross{position:absolute;left:50%;top:50%;width:18px;height:18px;transform:translate(-50%,-50%);opacity:.32;z-index:2}.cross:before,.cross:after{content:"";position:absolute;background:white}.cross:before{width:18px;height:1px;left:0;top:8px}.cross:after{height:18px;width:1px;left:8px;top:0}.mapTools{position:absolute;right:9px;top:9px;display:flex;flex-direction:column;gap:7px;z-index:9}.mapTools button{width:39px;height:39px;border:1px solid #36404a;background:rgba(14,18,22,.94);color:white;border-radius:12px;font-size:17px;box-shadow:0 8px 18px rgba(0,0,0,.32)}.coords{position:absolute;left:9px;bottom:9px;z-index:8;background:rgba(7,10,13,.88);border:1px solid #2d363f;border-radius:11px;padding:7px 9px;font:10.5px ui-monospace,SFMono-Regular,Consolas,monospace;color:#dce4ea;box-shadow:0 7px 18px rgba(0,0,0,.3)}.attr{position:absolute;right:8px;bottom:7px;z-index:4;color:#bac4cc;background:rgba(0,0,0,.4);font-size:8px;padding:2px 4px;border-radius:4px}
+.panel{padding:10px 9px calc(9px + env(safe-area-inset-bottom));background:linear-gradient(to top,#07090b 72%,rgba(7,9,11,.86))}.quick{display:grid;grid-template-columns:1.2fr .85fr .78fr;gap:7px}.btn{min-height:44px;border:1px solid #2c353e;border-radius:14px;background:linear-gradient(180deg,#1a2026,#12161a);color:#f8fafb;padding:10px 9px;font-weight:760;font-size:12.5px;transition:transform .12s,opacity .15s,border-color .15s,background .15s;box-shadow:0 8px 20px rgba(0,0,0,.16)}.btn:active{transform:scale(.98)}.btn:disabled{opacity:.37;box-shadow:none}.btn.primary{background:linear-gradient(135deg,#54d8cc,#5bb8dc);color:#061313;border-color:transparent}.btn.orange{background:linear-gradient(135deg,#ffad6d,#ff8d4c);color:#1a0d04;border-color:transparent}.btn.danger{background:#2a1216;color:#ffabb1;border-color:#6e3038}.btn.activeState{background:linear-gradient(135deg,#12332d,#102620);border-color:#347b6e;color:#87eee1}.btn.changed{background:linear-gradient(135deg,#1b3a2a,#142d21);border-color:#4b8f69;color:#a4efbd}.minirow{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:7px}.minirow .btn{font-size:10.5px;padding:8px 3px;min-height:38px}
+.sheetBack{display:none;position:fixed;inset:0;background:rgba(0,0,0,.62);z-index:50;align-items:flex-end}.sheet{width:100%;max-height:84vh;overflow:auto;background:#0f1317;border:1px solid #2c343c;border-radius:24px 24px 0 0;padding:12px 13px calc(22px + env(safe-area-inset-bottom));box-shadow:0 -22px 60px rgba(0,0,0,.52)}.grab{width:40px;height:4px;border-radius:999px;background:#39424b;margin:0 auto 11px}.sheet h2{font-size:18px;margin:3px 0 11px}.card{background:#161b20;border:1px solid #29323a;border-radius:16px;padding:11px;margin:8px 0}.card b{font-size:13px}.card p{font-size:11.5px;color:#a4aeb7;line-height:1.45;margin:5px 0 0}.row{display:flex;gap:8px}.row>*{flex:1}.field{width:100%;background:#161b20;border:1px solid #2d363f;border-radius:13px;padding:10px;color:white;outline:0}.label{color:#9ca7b0;font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;margin:11px 2px 6px}.item{display:flex;align-items:center;gap:9px;padding:10px 1px;border-bottom:1px solid #252d34}.item:last-child{border-bottom:0}.item .txt{flex:1;min-width:0}.item small{display:block;color:#929da6;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.tag{font-size:9.5px;border:1px solid #364049;border-radius:999px;padding:5px 7px;color:#cad2d8}.goodTxt{color:#8deeb5}.warn{color:#ffabb2}
+.joy{display:none;position:fixed;right:15px;bottom:128px;width:142px;height:142px;border-radius:50%;background:rgba(13,17,21,.93);border:1px solid #35404a;z-index:35;box-shadow:var(--shadow)}.joy button{position:absolute;width:43px;height:43px;border-radius:13px;border:1px solid #3a454e;background:#1b2228;color:white;font-size:19px}.joy .up{left:49px;top:8px}.joy .down{left:49px;bottom:8px}.joy .left{left:8px;top:49px}.joy .right{right:8px;top:49px}.joy .center{left:49px;top:49px;background:#12302c;color:#77eadf}.toast{position:fixed;left:50%;bottom:145px;transform:translateX(-50%) translateY(10px);opacity:0;pointer-events:none;z-index:100;background:#1b2127;border:1px solid #364049;border-radius:12px;padding:8px 11px;font-size:11.5px;box-shadow:var(--shadow);transition:.18s}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.updateBanner{display:none;position:absolute;left:12px;right:12px;top:66px;z-index:25;background:linear-gradient(135deg,#30200e,#21180d);border:1px solid #76572a;border-radius:14px;padding:9px 11px;box-shadow:var(--shadow);font-size:11.5px}.updateBanner b{color:#ffd084}.updateBanner button{float:right;border:0;background:#ffba64;color:#221205;border-radius:9px;padding:6px 8px;font-weight:800}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="header">
+  <div class="logo"></div>
+  <div class="brand"><b>MX Location</b><small>Android Pro • v1.1.0</small></div>
+  <div id="updatePill" class="pill update" style="display:none">UPDATE</div>
+  <div id="status" class="pill">CHECKING</div>
+</div>
+<div id="updateBanner" class="updateBanner"><button onclick="installUpdate()">Update</button><b>Update Available</b><div id="updateBannerText">A newer MX Location build is ready.</div></div>
+<div class="searchWrap">
+  <div class="search"><span>⌕</span><input id="search" placeholder="Search place or paste coordinates"><button onclick="clearSearch()">×</button></div>
+  <div id="results" class="results"></div>
+</div>
+<div class="mapWrap">
+  <div id="map"><canvas id="routeCanvas" class="routeCanvas"></canvas><div class="cross"></div><div id="pin" class="pin" style="display:none"></div><div id="coords" class="coords">Tap the map to drop a pin</div><div class="attr">© OpenStreetMap contributors</div></div>
+  <div class="mapTools"><button onclick="zoomBy(1)">＋</button><button onclick="zoomBy(-1)">−</button><button onclick="goHome()">⌂</button><button onclick="cycleStyle()">◫</button></div>
+</div>
+<div class="panel">
+  <div class="quick"><button id="actionBtn" class="btn primary" onclick="teleport()">Start Location</button><button id="joyBtn" class="btn orange" onclick="toggleJoystick()">Joystick</button><button id="stopBtn" class="btn danger" onclick="stopSpoof()" disabled>Stop</button></div>
+  <div class="minirow"><button class="btn" onclick="showSheet('presets')">★ Presets</button><button class="btn" onclick="showSheet('route')">↝ Route</button><button class="btn" onclick="showSheet('history')">◷ History</button><button id="settingsBtn" class="btn" onclick="showSheet('settings')">⚙ Settings</button></div>
+</div>
+</div>
+
+<div id="joy" class="joy">
+  <button class="up" data-dir="n">↑</button><button class="down" data-dir="s">↓</button><button class="left" data-dir="w">←</button><button class="right" data-dir="e">→</button><button class="center" onclick="toggleJoystick()">●</button>
+</div>
+<div id="sheetBack" class="sheetBack" onclick="if(event.target===this)hideSheet()"><div class="sheet"><div class="grab"></div><div id="sheetContent"></div></div></div>
+<div id="toast" class="toast"></div>
+
+<script>
+const map=document.getElementById('map'),pin=document.getElementById('pin'),coords=document.getElementById('coords');
+let center={lat:33.3152,lon:44.3661},zoom=13,selected=null,livePoint=null,active=false,routeActive=false,nativeState={},updateState={};
+let mapStyle=0,routePoints=[],routeStart=null,routeEnd=null,routeMode='drive',drawMode=false,searchTimer=null,drag=null,velocity={x:0,y:0},inertiaId=0;
+const styles=[
+ {name:'Street',url:(z,x,y)=>`https://tile.openstreetmap.org/${z}/${x}/${y}.png`},
+ {name:'Dark',url:(z,x,y)=>`https://a.basemaps.cartocdn.com/dark_all/${z}/${x}/${y}.png`},
+ {name:'Topo',url:(z,x,y)=>`https://tile.opentopomap.org/${z}/${x}/${y}.png`}
+];
+const tiles=new Map();
+
+function clamp(v,a,b){return Math.max(a,Math.min(b,v))}
+function mercX(lon,z){return (lon+180)/360*256*Math.pow(2,z)}
+function mercY(lat,z){let r=lat*Math.PI/180;return (1-Math.log(Math.tan(r)+1/Math.cos(r))/Math.PI)/2*256*Math.pow(2,z)}
+function invLon(x,z){return x/(256*Math.pow(2,z))*360-180}
+function invLat(y,z){let n=Math.PI-2*Math.PI*y/(256*Math.pow(2,z));return 180/Math.PI*Math.atan(.5*(Math.exp(n)-Math.exp(-n)))}
+function project(lat,lon){let w=map.clientWidth,h=map.clientHeight,cx=mercX(center.lon,zoom),cy=mercY(center.lat,zoom);return{x:w/2+(mercX(lon,zoom)-cx),y:h/2+(mercY(lat,zoom)-cy)}}
+function unproject(x,y){let w=map.clientWidth,h=map.clientHeight,cx=mercX(center.lon,zoom),cy=mercY(center.lat,zoom);return{lat:invLat(cy+y-h/2,zoom),lon:invLon(cx+x-w/2,zoom)}}
+function scheduleRender(){if(scheduleRender.pending)return;scheduleRender.pending=true;requestAnimationFrame(()=>{scheduleRender.pending=false;render()})}
+function render(){
+ let w=map.clientWidth,h=map.clientHeight;if(!w||!h)return;
+ let world=256*Math.pow(2,zoom),cx=mercX(center.lon,zoom),cy=mercY(center.lat,zoom);
+ let minX=Math.floor((cx-w/2)/256)-1,maxX=Math.floor((cx+w/2)/256)+1,minY=Math.floor((cy-h/2)/256)-1,maxY=Math.floor((cy+h/2)/256)+1;
+ let used=new Set(),n=Math.pow(2,zoom);
+ for(let ty=minY;ty<=maxY;ty++)for(let tx=minX;tx<=maxX;tx++){
+   if(ty<0||ty>=n)continue;let wx=((tx%n)+n)%n,key=`${mapStyle}:${zoom}:${wx}:${ty}`;used.add(key);
+   let img=tiles.get(key);if(!img){img=new Image();img.className='tile';img.decoding='async';img.referrerPolicy='no-referrer';img.onload=()=>img.classList.add('loaded');img.src=styles[mapStyle].url(zoom,wx,ty);map.insertBefore(img,map.firstChild);tiles.set(key,img)}
+   img.style.display='block';img.style.transform=`translate3d(${Math.round(w/2+(tx*256-cx))}px,${Math.round(h/2+(ty*256-cy))}px,0)`;
+ }
+ for(const [k,img] of tiles){if(!used.has(k))img.style.display='none'}
+ if(tiles.size>110){for(const [k,img] of [...tiles]){if(!used.has(k)){img.remove();tiles.delete(k);if(tiles.size<=85)break}}}
+ if(selected){let p=project(selected.lat,selected.lon);pin.style.display='block';pin.style.left=p.x+'px';pin.style.top=p.y+'px';coords.textContent=selected.lat.toFixed(6)+', '+selected.lon.toFixed(6)}else{pin.style.display='none';coords.textContent='Tap the map to drop a pin'}
+ drawRoute();
+}
+function clearTileCache(){for(const [,i]of tiles)i.remove();tiles.clear()}
+function zoomBy(d){let nz=clamp(zoom+d,3,19);if(nz===zoom)return;zoom=nz;scheduleRender()}
+function cycleStyle(){mapStyle=(mapStyle+1)%styles.length;localStorage.setItem('mx_style',mapStyle);clearTileCache();scheduleRender();toast(styles[mapStyle].name+' map')}
+function goHome(){try{let h=MXAndroid.getHome();if(h){let a=h.split(',');center={lat:+a[0],lon:+a[1]};zoom=16;scheduleRender();return}}catch(e){}center={lat:33.3152,lon:44.3661};zoom=13;scheduleRender()}
+function setCenterByDrag(dx,dy){let cx=mercX(center.lon,zoom)-dx,cy=mercY(center.lat,zoom)-dy;center={lat:clamp(invLat(cy,zoom),-85,85),lon:invLon(cx,zoom)};scheduleRender()}
+map.addEventListener('pointerdown',e=>{cancelAnimationFrame(inertiaId);drag={x:e.clientX,y:e.clientY,lastX:e.clientX,lastY:e.clientY,lastT:performance.now(),moved:0};velocity={x:0,y:0};map.setPointerCapture(e.pointerId)});
+map.addEventListener('pointermove',e=>{if(!drag)return;let dx=e.clientX-drag.lastX,dy=e.clientY-drag.lastY,now=performance.now(),dt=Math.max(8,now-drag.lastT);drag.moved+=Math.abs(dx)+Math.abs(dy);velocity={x:dx/dt*16,y:dy/dt*16};drag.lastX=e.clientX;drag.lastY=e.clientY;drag.lastT=now;setCenterByDrag(dx,dy)});
+map.addEventListener('pointerup',e=>{if(!drag)return;let d=drag;drag=null;if(d.moved<9){let r=map.getBoundingClientRect(),p=unproject(e.clientX-r.left,e.clientY-r.top);selected=p;localStorage.setItem('mx_selected',JSON.stringify(selected));if(drawMode)routePoints.push({...p});updateControls();scheduleRender()}else{startInertia()}});
+map.addEventListener('pointercancel',()=>drag=null);
+function startInertia(){let vx=velocity.x,vy=velocity.y;function step(){vx*=.91;vy*=.91;if(Math.abs(vx)+Math.abs(vy)<.18)return;setCenterByDrag(vx,vy);inertiaId=requestAnimationFrame(step)}step()}
+map.addEventListener('wheel',e=>{e.preventDefault();zoomBy(e.deltaY<0?1:-1)},{passive:false});
+
+function drawRoute(){let c=document.getElementById('routeCanvas'),d=devicePixelRatio||1,w=map.clientWidth,h=map.clientHeight;c.width=w*d;c.height=h*d;c.style.width=w+'px';c.style.height=h+'px';let g=c.getContext('2d');g.scale(d,d);g.clearRect(0,0,w,h);if(routePoints.length<2)return;g.lineWidth=4;g.lineCap='round';g.lineJoin='round';g.strokeStyle='#55d9cd';g.shadowColor='rgba(0,0,0,.55)';g.shadowBlur=5;g.beginPath();routePoints.forEach((p,i)=>{let q=project(p.lat,p.lon);i?g.lineTo(q.x,q.y):g.moveTo(q.x,q.y)});g.stroke()}
+
+function toast(s){let e=document.getElementById('toast');e.textContent=s;e.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove('show'),1800)}
+function updateControls(){
+ let a=document.getElementById('actionBtn'),st=document.getElementById('stopBtn'),jb=document.getElementById('joyBtn');
+ st.disabled=!active;
+ if(!selected){a.disabled=true;a.textContent=active?'Select New Location':'Select Location';a.className='btn primary'}
+ else if(active){a.disabled=false;a.textContent='Change Location';a.className='btn activeState'}
+ else{a.disabled=false;a.textContent='Start Location';a.className='btn primary'}
+ jb.className='btn orange'+(document.getElementById('joy').style.display==='block'?' activeState':'');
+}
+function updateStatus(){
+ let s=document.getElementById('status');s.className='pill';
+ if(active){s.textContent=routeActive?'ROUTE ACTIVE':'LOCATION ACTIVE';s.classList.add('active')}
+ else if(nativeState.mockReady){s.textContent='READY';s.classList.add('good')}
+ else{s.textContent='SETUP';s.classList.add('bad')}
+ updateControls()
+}
+window.mxNativeState=function(s){nativeState=s||{};active=!!s.running;routeActive=!!s.routeActive;if(active&&Number.isFinite(+s.lat)&&Number.isFinite(+s.lon)&&(+s.lat||+s.lon)){livePoint={lat:+s.lat,lon:+s.lon};if(!selected)selected={...livePoint}}updateStatus();scheduleRender()}
+function teleport(){if(!selected){toast('Tap the map first.');return}let b=document.getElementById('actionBtn');b.disabled=true;b.textContent=active?'Changing…':'Starting…';try{MXAndroid.teleport(selected.lat,selected.lon);active=true;routeActive=false;livePoint={...selected};addHistory(selected.lat,selected.lon);setTimeout(()=>{b.className='btn changed';b.textContent='Location Changed';updateStatus();setTimeout(updateControls,650)},250)}catch(e){toast('Could not start location.');updateControls()}}
+function stopSpoof(){try{MXAndroid.stop()}catch(e){}active=false;routeActive=false;updateStatus();toast('Location stopped.')}
+function toggleJoystick(){let j=document.getElementById('joy');j.style.display=j.style.display==='block'?'none':'block';updateControls()}
+function moveBy(dir){if(!active){toast('Start location first.');return}let p=livePoint||selected;if(!p)return;let step=+localStorage.getItem('mx_joy_step')||12,mLat=step/111320,mLon=step/(111320*Math.cos(p.lat*Math.PI/180));if(dir==='n')p.lat+=mLat;if(dir==='s')p.lat-=mLat;if(dir==='e')p.lon+=mLon;if(dir==='w')p.lon-=mLon;livePoint={...p};selected={...p};center={...p};try{MXAndroid.update(p.lat,p.lon,Math.max(2.5,step*1.2))}catch(e){}scheduleRender()}
+document.querySelectorAll('#joy [data-dir]').forEach(b=>{let timer=null;let go=()=>moveBy(b.dataset.dir);b.addEventListener('pointerdown',()=>{go();timer=setInterval(go,120)});['pointerup','pointercancel','pointerleave'].forEach(ev=>b.addEventListener(ev,()=>{clearInterval(timer);timer=null}))});
+
+document.getElementById('search').addEventListener('input',e=>{clearTimeout(searchTimer);let q=e.target.value.trim();if(q.length<2){hideResults();return}let m=q.match(/^\s*(-?\d+(?:\.\d+)?)\s*[, ]\s*(-?\d+(?:\.\d+)?)\s*$/);if(m){showResults([{name:'Coordinates',detail:m[1]+', '+m[2],lat:+m[1],lon:+m[2]}]);return}searchTimer=setTimeout(()=>searchPlace(q),420)});
+async function searchPlace(q){try{let r=await fetch('https://photon.komoot.io/api/?limit=6&q='+encodeURIComponent(q));let j=await r.json();showResults((j.features||[]).map(f=>({name:f.properties.name||f.properties.city||f.properties.country||'Place',detail:[f.properties.street,f.properties.city,f.properties.state,f.properties.country].filter(Boolean).join(', '),lat:f.geometry.coordinates[1],lon:f.geometry.coordinates[0]})))}catch(e){toast('Search needs internet.');showResults([])}}
+function showResults(a){let e=document.getElementById('results');e.innerHTML=a.length?a.map((x,i)=>`<div class="result" data-i="${i}"><b>${esc(x.name)}</b><small>${esc(x.detail||'')}</small></div>`).join(''):'<div class="result"><small>No results</small></div>';e.style.display='block';[...e.querySelectorAll('[data-i]')].forEach((n,i)=>n.onclick=()=>pickResult(a[i]))}
+function hideResults(){document.getElementById('results').style.display='none'}function clearSearch(){document.getElementById('search').value='';hideResults()}
+function pickResult(x){selected={lat:+x.lat,lon:+x.lon};center={...selected};zoom=16;localStorage.setItem('mx_selected',JSON.stringify(selected));document.getElementById('search').value=x.name;hideResults();updateControls();scheduleRender()}
+function esc(s){return String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+
+function getPresets(){try{return JSON.parse(localStorage.getItem('mx_presets')||'[]')}catch(e){return[]}}
+function savePresets(v){localStorage.setItem('mx_presets',JSON.stringify(v))}
+function savePreset(){if(!selected){toast('Drop a pin first.');return}let name=prompt('Preset name','Saved location');if(!name)return;let a=getPresets();a.unshift({name,lat:selected.lat,lon:selected.lon,ts:Date.now()});savePresets(a.slice(0,80));showSheet('presets')}
+function deletePreset(i){let a=getPresets();a.splice(i,1);savePresets(a);showSheet('presets')}
+function getHistory(){try{return JSON.parse(localStorage.getItem('mx_hist')||'[]')}catch(e){return[]}}
+function addHistory(lat,lon){let h=getHistory();h.unshift({lat,lon,ts:Date.now()});localStorage.setItem('mx_hist',JSON.stringify(h.slice(0,70)))}
+function usePoint(lat,lon){selected={lat:+lat,lon:+lon};center={...selected};zoom=16;hideSheet();updateControls();scheduleRender()}
+
+function showSheet(type){let c=document.getElementById('sheetContent');
+ if(type==='presets'){let a=getPresets();c.innerHTML=`<h2>Location Presets</h2><button class="btn primary" style="width:100%" onclick="savePreset()">★ Save current pin</button><div class="card">${a.length?a.map((x,i)=>`<div class="item"><div class="txt" onclick="usePoint(${x.lat},${x.lon})"><b>${esc(x.name)}</b><small>${x.lat.toFixed(6)}, ${x.lon.toFixed(6)}</small></div><button class="tag" onclick="deletePreset(${i})">Remove</button></div>`).join(''):'<p>Save frequently used locations here.</p>'}</div>`}
+ else if(type==='history'){let h=getHistory();c.innerHTML=`<h2>History</h2><div class="card">${h.length?h.map(x=>`<div class="item" onclick="usePoint(${x.lat},${x.lon})"><div class="txt"><b>${x.lat.toFixed(6)}, ${x.lon.toFixed(6)}</b><small>${new Date(x.ts).toLocaleString()}</small></div><span class="tag">Open</span></div>`).join(''):'<p>Your recent location changes appear here.</p>'}</div>`}
+ else if(type==='route')c.innerHTML=routeSheet();
+ else if(type==='settings')c.innerHTML=settingsSheet();
+ document.getElementById('sheetBack').style.display='flex'
+}
+function hideSheet(){document.getElementById('sheetBack').style.display='none'}
+function settingsSheet(){let mr=!!nativeState.mockReady,be=!!nativeState.batteryExempt,u=updateState;return `<h2>Settings</h2>
+<div class="card"><b>${mr?'<span class="goodTxt">✓ Mock Location Ready</span>':'<span class="warn">1. Select MX Location as mock app</span>'}</b><p>Developer options → Select mock location app → MX Location.</p><button class="btn" style="width:100%;margin-top:8px" onclick="MXAndroid.openDeveloperOptions();hideSheet()">Open Developer Options</button></div>
+<div class="card"><b>${be?'<span class="goodTxt">✓ Background optimization allowed</span>':'2. Background keep-alive'}</b><p>Allow MX Location to keep its foreground GPS service active when the screen is off.</p><button class="btn" style="width:100%;margin-top:8px" onclick="MXAndroid.requestBatteryExemption()">Battery Optimization</button></div>
+<div class="card"><b>Joystick step</b><p>Distance moved by each joystick step.</p><div class="row" style="margin-top:8px"><input id="joyStep" class="field" type="number" min="1" max="100" value="${localStorage.getItem('mx_joy_step')||12}"><button class="btn" onclick="saveJoyStep()">Save</button></div></div>
+<div class="card"><b>App update</b><p id="updText">${u.available?esc('Version '+u.versionName+' is available.'):(u.ok?'You are on the latest version.':'Check GitHub for a newer Android build.')}</p><button class="btn ${u.available?'orange':''}" style="width:100%;margin-top:8px" onclick="${u.available?'installUpdate()':'checkUpdate()'}">${u.available?'Update Available':'Check for Updates'}</button></div>
+<div class="card"><b>Map style</b><p>${styles[mapStyle].name}</p><button class="btn" style="width:100%;margin-top:8px" onclick="cycleStyle();showSheet('settings')">Change Map Style</button></div>
+${nativeState.error?`<div class="card"><b class="warn">Engine message</b><p>${esc(nativeState.error)}</p></div>`:''}`}
+function saveJoyStep(){let v=clamp(+document.getElementById('joyStep').value||12,1,100);localStorage.setItem('mx_joy_step',v);toast('Joystick step saved.')}
+function routeSheet(){return `<h2>Route Simulation</h2><div class="card"><b>Smooth GPS route</b><p>MX Location interpolates movement between points and applies small speed, bearing, accuracy and altitude variation for smoother test routes.</p></div>
+<div class="label">Travel mode</div><div class="row"><button class="btn ${routeMode==='drive'?'primary':''}" onclick="routeMode='drive';showSheet('route')">Drive</button><button class="btn ${routeMode==='walk'?'primary':''}" onclick="routeMode='walk';showSheet('route')">Walk</button></div>
+<div class="label">Speed km/h</div><input id="speed" class="field" type="number" min="1" max="180" value="${localStorage.getItem('mx_speed')||35}">
+<div class="label">Route endpoints</div><div class="row"><button class="btn" onclick="routeStartFromPin()">Pin = Start</button><button class="btn" onclick="routeEndFromPin()">Pin = End</button></div>
+<div class="row" style="margin-top:8px"><button class="btn" onclick="toggleDraw()">${drawMode?'Finish Drawing':'Draw Path'}</button><button class="btn" onclick="document.getElementById('gpxFile').click()">Import GPX</button></div>
+<input id="gpxFile" type="file" accept=".gpx,application/gpx+xml,text/xml" style="display:none" onchange="importGPX(this.files[0])">
+<div class="row" style="margin-top:8px"><button class="btn primary" onclick="buildRoute()">Build Road Route</button><button class="btn orange" onclick="playRoute()">Play Route</button></div>
+<div class="row" style="margin-top:8px"><button class="btn" onclick="exportGPX()">Export GPX</button><button class="btn danger" onclick="clearRoute()">Clear</button></div>
+<div class="card"><b>${routePoints.length} route points</b><p>${routePoints.length>=2?'Ready to play.':'Choose start/end, draw a path, or import GPX.'}</p></div>`}
+function routeStartFromPin(){if(!selected){toast('Drop a pin first.');return}routeStart={...selected};toast('Route start set.')}
+function routeEndFromPin(){if(!selected){toast('Drop a pin first.');return}routeEnd={...selected};toast('Route end set.')}
+function toggleDraw(){drawMode=!drawMode;if(drawMode){routePoints=[];hideSheet();toast('Tap the map to draw. Open Route when done.')}else showSheet('route')}
+async function buildRoute(){if(!routeStart||!routeEnd){toast('Set route start and end.');return}let base=routeMode==='walk'?'https://routing.openstreetmap.de/routed-foot/route/v1/driving/':'https://router.project-osrm.org/route/v1/driving/';let u=base+`${routeStart.lon},${routeStart.lat};${routeEnd.lon},${routeEnd.lat}?overview=full&geometries=geojson`;try{let r=await fetch(u),j=await r.json(),co=j.routes&&j.routes[0]&&j.routes[0].geometry.coordinates;if(!co)throw 0;routePoints=co.map(p=>({lat:p[1],lon:p[0]}));center={lat:(routeStart.lat+routeEnd.lat)/2,lon:(routeStart.lon+routeEnd.lon)/2};zoom=13;scheduleRender();toast('Road route built.');showSheet('route')}catch(e){routePoints=[routeStart,routeEnd];scheduleRender();toast('Routing unavailable — straight route used.');showSheet('route')}}
+function playRoute(){if(routePoints.length<2){toast('Build, draw, or import a route first.');return}let s=+document.getElementById('speed').value||35;localStorage.setItem('mx_speed',s);try{MXAndroid.startRoute(JSON.stringify(routePoints.map(p=>[p.lat,p.lon])),s);active=true;routeActive=true;selected={...routePoints[0]};livePoint={...selected};hideSheet();updateStatus();toast('Route started.')}catch(e){toast('Could not start route.')}}
+function clearRoute(){routePoints=[];routeStart=routeEnd=null;drawMode=false;try{MXAndroid.stopRoute()}catch(e){}scheduleRender();showSheet('route')}
+function exportGPX(){if(routePoints.length<2){toast('No route to export.');return}let pts=routePoints.map(p=>`<trkpt lat="${p.lat.toFixed(7)}" lon="${p.lon.toFixed(7)}"></trkpt>`).join('');let g=`<?xml version="1.0" encoding="UTF-8"?>\n<gpx version="1.1" creator="MX Location" xmlns="http://www.topografix.com/GPX/1/1"><trk><name>MX Location Route</name><trkseg>${pts}</trkseg></trk></gpx>`;try{MXAndroid.exportGpx('MX-Location-Route.gpx',g)}catch(e){}}
+async function importGPX(file){if(!file)return;let t=await file.text(),re=/<trkpt[^>]*lat=["']([^"']+)["'][^>]*lon=["']([^"']+)["'][^>]*>/gi,m,a=[];while((m=re.exec(t)))a.push({lat:+m[1],lon:+m[2]});if(a.length<2){toast('No GPX track points found.');return}routePoints=a;center={...a[0]};zoom=14;scheduleRender();toast(a.length+' GPX points imported.');showSheet('route')}
+
+function checkUpdate(){toast('Checking GitHub…');try{MXAndroid.checkForUpdate()}catch(e){toast('Update check unavailable.')}}
+window.mxUpdateState=function(s){updateState=s||{};let pill=document.getElementById('updatePill'),banner=document.getElementById('updateBanner');if(s.available){pill.style.display='block';banner.style.display='block';document.getElementById('updateBannerText').textContent='Version '+s.versionName+' is ready.';document.getElementById('settingsBtn').textContent='⚙ Update';toast('Update available: '+s.versionName)}else{pill.style.display='none';banner.style.display='none';document.getElementById('settingsBtn').textContent='⚙ Settings';if(s.ok)toast('MX Location is up to date.')}if(document.getElementById('sheetBack').style.display==='flex')showSheet('settings')}
+function installUpdate(){if(!updateState.apkUrl){checkUpdate();return}try{MXAndroid.downloadUpdate(updateState.apkUrl)}catch(e){toast('Could not start update.')}}
+window.addEventListener('resize',scheduleRender);
+
+(function init(){mapStyle=+(localStorage.getItem('mx_style')||0);let d=localStorage.getItem('mx_selected');if(d)try{selected=JSON.parse(d);center={...selected};zoom=15}catch(e){}scheduleRender();updateControls();try{window.mxNativeState(JSON.parse(MXAndroid.getState()))}catch(e){updateStatus()}setTimeout(checkUpdate,1800)})();
+</script>
+</body>
+</html>
