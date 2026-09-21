@@ -126,6 +126,12 @@ public class MainActivity extends Activity {
                 "window.mxUpdateState && window.mxUpdateState(" + json + ");", null));
     }
 
+    void pushUpdateDownloadState(String json) {
+        if (webView == null) return;
+        runOnUiThread(() -> webView.evaluateJavascript(
+                "window.mxUpdateDownloadState && window.mxUpdateDownloadState(" + json + ");", null));
+    }
+
     public void toast(String text) {
         runOnUiThread(() -> Toast.makeText(this, text, Toast.LENGTH_SHORT).show());
     }
