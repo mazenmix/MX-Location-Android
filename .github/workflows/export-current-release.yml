@@ -1,0 +1,21 @@
+name: Export Current Release APK
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - ".github/workflows/export-current-release.yml"
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Upload current signed release APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: mx-location-current-release
+          path: releases/MX-Location-Android.apk
+          if-no-files-found: error
