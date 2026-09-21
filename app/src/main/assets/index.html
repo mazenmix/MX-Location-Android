@@ -9,7 +9,7 @@
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}html,body{margin:0;height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif}.app{height:100%;display:flex;flex-direction:column;background:radial-gradient(circle at 35% -10%,rgba(83,216,204,.12),transparent 34%),var(--bg);padding-top:max(6px,env(safe-area-inset-top))}
 .header{height:58px;display:flex;align-items:center;gap:10px;padding:8px 13px}.logo{width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,#54d6ca,#3e879f);display:grid;place-items:center;box-shadow:0 9px 22px rgba(0,0,0,.34)}.logo:before{content:"";width:15px;height:15px;border:3px solid #071112;border-radius:50%;box-shadow:0 0 0 3px rgba(255,255,255,.7)}.brand{flex:1;min-width:0}.brand b{display:block;font-size:18px;letter-spacing:-.35px}.brand small{display:block;font-size:10.5px;color:var(--muted);margin-top:2px}.pill{border:1px solid var(--line);background:#101419;color:#cad2d9;border-radius:999px;padding:6px 8px;font-size:9.5px;font-weight:800;white-space:nowrap}.pill.active{border-color:#28756d;background:#0d2926;color:#78eee2}.pill.good{border-color:#2c7048;background:#10291a;color:#91efb7}.pill.bad{border-color:#74343b;background:#2b1216;color:#ff9da5}.pill.update{border-color:#7b5a25;background:#2b2010;color:#ffc779}
 .searchWrap{padding:0 11px 8px;position:relative;z-index:30}.search{display:flex;align-items:center;gap:7px;background:rgba(17,21,26,.97);border:1px solid #2b343d;border-radius:16px;padding:0 10px;box-shadow:0 12px 28px rgba(0,0,0,.24);backdrop-filter:blur(12px)}.search input{min-width:0;flex:1;border:0;outline:0;background:transparent;color:white;font-size:14px;padding:11px 2px}.search button{border:0;background:transparent;color:#cfd6dc;font-size:18px;padding:7px}.results{display:none;position:absolute;left:11px;right:11px;top:47px;max-height:225px;overflow:auto;background:#12161b;border:1px solid #2c343d;border-radius:14px;box-shadow:var(--shadow)}.result{padding:10px 12px;border-bottom:1px solid #232b32;font-size:13px}.result:last-child{border-bottom:0}.result small{display:block;color:var(--muted);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.mapWrap{position:relative;flex:1;min-height:0;margin:0 9px;border-radius:23px;overflow:hidden;border:1px solid #293139;background:#101317;box-shadow:0 18px 45px rgba(0,0,0,.29)}#map{position:absolute;inset:0;overflow:hidden;touch-action:none;background:#101317}.tile{position:absolute;width:256px;height:256px;user-select:none;pointer-events:none;will-change:transform;opacity:0;transition:opacity .12s linear}.tile.loaded{opacity:1}.routeCanvas{position:absolute;inset:0;width:100%;height:100%;z-index:3;pointer-events:none}.pin{position:absolute;width:30px;height:42px;transform:translate(-50%,-92%);z-index:6;filter:drop-shadow(0 7px 9px rgba(0,0,0,.55));transition:left .13s linear,top .13s linear}.pin:before{content:"";position:absolute;left:3px;top:2px;width:24px;height:24px;background:linear-gradient(135deg,var(--teal),#35999a);border:2px solid white;border-radius:50% 50% 50% 5px;transform:rotate(-45deg)}.pin:after{content:"";position:absolute;left:11px;top:10px;width:8px;height:8px;border-radius:50%;background:#0a1011}.cross{position:absolute;left:50%;top:50%;width:18px;height:18px;transform:translate(-50%,-50%);opacity:.32;z-index:2}.cross:before,.cross:after{content:"";position:absolute;background:white}.cross:before{width:18px;height:1px;left:0;top:8px}.cross:after{height:18px;width:1px;left:8px;top:0}.mapTools{position:absolute;right:9px;top:9px;display:flex;flex-direction:column;gap:7px;z-index:9}.mapTools button{width:39px;height:39px;border:1px solid #36404a;background:rgba(14,18,22,.94);color:white;border-radius:12px;font-size:17px;box-shadow:0 8px 18px rgba(0,0,0,.32)}.coords{position:absolute;left:9px;bottom:9px;z-index:8;background:rgba(7,10,13,.88);border:1px solid #2d363f;border-radius:11px;padding:7px 9px;font:10.5px ui-monospace,SFMono-Regular,Consolas,monospace;color:#dce4ea;box-shadow:0 7px 18px rgba(0,0,0,.3)}.attr{position:absolute;right:8px;bottom:7px;z-index:4;color:#bac4cc;background:rgba(0,0,0,.4);font-size:8px;padding:2px 4px;border-radius:4px}
+.mapWrap{position:relative;flex:1;min-height:0;margin:0 9px;border-radius:23px;overflow:hidden;border:1px solid #293139;background:#101317;box-shadow:0 18px 45px rgba(0,0,0,.29)}#map{position:absolute;inset:0;overflow:hidden;touch-action:none;background:#101317;isolation:isolate}#tileStage{position:absolute;inset:0;z-index:0;overflow:hidden;contain:strict;background:#101317}.tileLayer{position:absolute;inset:0;will-change:transform,opacity;transform:translate3d(0,0,0) scale(1);transform-origin:50% 50%;backface-visibility:hidden;contain:layout paint style}.tile{position:absolute;width:256px;height:256px;user-select:none;pointer-events:none;will-change:transform,opacity;backface-visibility:hidden;transform:translateZ(0);opacity:0;transition:opacity .1s linear}.tile.loaded{opacity:1}.routeCanvas{position:absolute;inset:0;width:100%;height:100%;z-index:3;pointer-events:none}.pin{position:absolute;width:30px;height:42px;transform:translate(-50%,-92%);z-index:6;filter:drop-shadow(0 7px 9px rgba(0,0,0,.55));transition:left .13s linear,top .13s linear}.pin:before{content:"";position:absolute;left:3px;top:2px;width:24px;height:24px;background:linear-gradient(135deg,var(--teal),#35999a);border:2px solid white;border-radius:50% 50% 50% 5px;transform:rotate(-45deg)}.pin:after{content:"";position:absolute;left:11px;top:10px;width:8px;height:8px;border-radius:50%;background:#0a1011}.cross{position:absolute;left:50%;top:50%;width:18px;height:18px;transform:translate(-50%,-50%);opacity:.32;z-index:2}.cross:before,.cross:after{content:"";position:absolute;background:white}.cross:before{width:18px;height:1px;left:0;top:8px}.cross:after{height:18px;width:1px;left:8px;top:0}.mapTools{position:absolute;right:9px;top:9px;display:flex;flex-direction:column;gap:7px;z-index:9}.mapTools button{width:39px;height:39px;border:1px solid #36404a;background:rgba(14,18,22,.94);color:white;border-radius:12px;font-size:17px;box-shadow:0 8px 18px rgba(0,0,0,.32)}.coords{position:absolute;left:9px;bottom:9px;z-index:8;background:rgba(7,10,13,.88);border:1px solid #2d363f;border-radius:11px;padding:7px 9px;font:10.5px ui-monospace,SFMono-Regular,Consolas,monospace;color:#dce4ea;box-shadow:0 7px 18px rgba(0,0,0,.3)}.attr{position:absolute;right:8px;bottom:7px;z-index:4;color:#bac4cc;background:rgba(0,0,0,.4);font-size:8px;padding:2px 4px;border-radius:4px}
 .panel{padding:10px 9px calc(9px + env(safe-area-inset-bottom));background:linear-gradient(to top,#07090b 72%,rgba(7,9,11,.86))}.quick{display:grid;grid-template-columns:1.2fr .85fr .78fr;gap:7px}.btn{min-height:44px;border:1px solid #2c353e;border-radius:14px;background:linear-gradient(180deg,#1a2026,#12161a);color:#f8fafb;padding:10px 9px;font-weight:760;font-size:12.5px;transition:transform .12s,opacity .15s,border-color .15s,background .15s;box-shadow:0 8px 20px rgba(0,0,0,.16)}.btn:active{transform:scale(.98)}.btn:disabled{opacity:.37;box-shadow:none}.btn.primary{background:linear-gradient(135deg,#54d8cc,#5bb8dc);color:#061313;border-color:transparent}.btn.orange{background:linear-gradient(135deg,#ffad6d,#ff8d4c);color:#1a0d04;border-color:transparent}.btn.danger{background:#2a1216;color:#ffabb1;border-color:#6e3038}.btn.activeState{background:linear-gradient(135deg,#12332d,#102620);border-color:#347b6e;color:#87eee1}.btn.changed{background:linear-gradient(135deg,#1b3a2a,#142d21);border-color:#4b8f69;color:#a4efbd}.minirow{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:7px}.minirow .btn{font-size:10.5px;padding:8px 3px;min-height:38px}
 .sheetBack{display:none;position:fixed;inset:0;background:rgba(0,0,0,.62);z-index:50;align-items:flex-end}.sheet{width:100%;max-height:84vh;overflow:auto;background:#0f1317;border:1px solid #2c343c;border-radius:24px 24px 0 0;padding:12px 13px calc(22px + env(safe-area-inset-bottom));box-shadow:0 -22px 60px rgba(0,0,0,.52)}.grab{width:40px;height:4px;border-radius:999px;background:#39424b;margin:0 auto 11px}.sheet h2{font-size:18px;margin:3px 0 11px}.card{background:#161b20;border:1px solid #29323a;border-radius:16px;padding:11px;margin:8px 0}.card b{font-size:13px}.card p{font-size:11.5px;color:#a4aeb7;line-height:1.45;margin:5px 0 0}.row{display:flex;gap:8px}.row>*{flex:1}.field{width:100%;background:#161b20;border:1px solid #2d363f;border-radius:13px;padding:10px;color:white;outline:0}.label{color:#9ca7b0;font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;margin:11px 2px 6px}.item{display:flex;align-items:center;gap:9px;padding:10px 1px;border-bottom:1px solid #252d34}.item:last-child{border-bottom:0}.item .txt{flex:1;min-width:0}.item small{display:block;color:#929da6;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.tag{font-size:9.5px;border:1px solid #364049;border-radius:999px;padding:5px 7px;color:#cad2d8}.goodTxt{color:#8deeb5}.warn{color:#ffabb2}
 .joy{display:none;position:fixed;right:15px;bottom:128px;width:142px;height:142px;border-radius:50%;background:rgba(13,17,21,.93);border:1px solid #35404a;z-index:35;box-shadow:var(--shadow)}.joy button{position:absolute;width:43px;height:43px;border-radius:13px;border:1px solid #3a454e;background:#1b2228;color:white;font-size:19px}.joy .up{left:49px;top:8px}.joy .down{left:49px;bottom:8px}.joy .left{left:8px;top:49px}.joy .right{right:8px;top:49px}.joy .center{left:49px;top:49px;background:#12302c;color:#77eadf}.toast{position:fixed;left:50%;bottom:145px;transform:translateX(-50%) translateY(10px);opacity:0;pointer-events:none;z-index:100;background:#1b2127;border:1px solid #364049;border-radius:12px;padding:8px 11px;font-size:11.5px;box-shadow:var(--shadow);transition:.18s}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
@@ -20,7 +20,7 @@
 <div class="app">
 <div class="header">
   <div class="logo"></div>
-  <div class="brand"><b>MX Location</b><small>Android Pro • v1.1.0</small></div>
+  <div class="brand"><b>MX Location</b><small>Android Pro • v1.1.2</small></div>
   <div id="updatePill" class="pill update" style="display:none">UPDATE</div>
   <div id="status" class="pill">CHECKING</div>
 </div>
@@ -30,7 +30,7 @@
   <div id="results" class="results"></div>
 </div>
 <div class="mapWrap">
-  <div id="map"><canvas id="routeCanvas" class="routeCanvas"></canvas><div class="cross"></div><div id="pin" class="pin" style="display:none"></div><div id="coords" class="coords">Tap the map to drop a pin</div><div class="attr">© OpenStreetMap contributors</div></div>
+  <div id="map"><div id="tileStage"><div id="tileA" class="tileLayer"></div><div id="tileB" class="tileLayer" style="opacity:0"></div></div><canvas id="routeCanvas" class="routeCanvas"></canvas><div class="cross"></div><div id="pin" class="pin" style="display:none"></div><div id="coords" class="coords">Tap the map to drop a pin</div><div class="attr">© OpenStreetMap contributors</div></div>
   <div class="mapTools"><button onclick="zoomBy(1)">＋</button><button onclick="zoomBy(-1)">−</button><button onclick="goHome()">⌂</button><button onclick="cycleStyle()">◫</button></div>
 </div>
 <div class="panel">
@@ -47,49 +47,123 @@
 
 <script>
 const map=document.getElementById('map'),pin=document.getElementById('pin'),coords=document.getElementById('coords');
+const layerA={el:document.getElementById('tileA'),tiles:new Map()},layerB={el:document.getElementById('tileB'),tiles:new Map()};
+let activeLayer=layerA;
 let center={lat:33.3152,lon:44.3661},zoom=13,selected=null,livePoint=null,active=false,routeActive=false,nativeState={},updateState={};
 let mapStyle=0,routePoints=[],routeStart=null,routeEnd=null,routeMode='drive',drawMode=false,searchTimer=null,drag=null,velocity={x:0,y:0},inertiaId=0;
+let zoomAnimating=false,queuedZoom=0,wheelAccum=0,lastWheelZoom=0,pinch=null;
+const pointers=new Map();
 const styles=[
  {name:'Street',url:(z,x,y)=>`https://tile.openstreetmap.org/${z}/${x}/${y}.png`},
  {name:'Dark',url:(z,x,y)=>`https://a.basemaps.cartocdn.com/dark_all/${z}/${x}/${y}.png`},
  {name:'Topo',url:(z,x,y)=>`https://tile.opentopomap.org/${z}/${x}/${y}.png`}
 ];
-const tiles=new Map();
 
 function clamp(v,a,b){return Math.max(a,Math.min(b,v))}
 function mercX(lon,z){return (lon+180)/360*256*Math.pow(2,z)}
 function mercY(lat,z){let r=lat*Math.PI/180;return (1-Math.log(Math.tan(r)+1/Math.cos(r))/Math.PI)/2*256*Math.pow(2,z)}
 function invLon(x,z){return x/(256*Math.pow(2,z))*360-180}
 function invLat(y,z){let n=Math.PI-2*Math.PI*y/(256*Math.pow(2,z));return 180/Math.PI*Math.atan(.5*(Math.exp(n)-Math.exp(-n)))}
-function project(lat,lon){let w=map.clientWidth,h=map.clientHeight,cx=mercX(center.lon,zoom),cy=mercY(center.lat,zoom);return{x:w/2+(mercX(lon,zoom)-cx),y:h/2+(mercY(lat,zoom)-cy)}}
-function unproject(x,y){let w=map.clientWidth,h=map.clientHeight,cx=mercX(center.lon,zoom),cy=mercY(center.lat,zoom);return{lat:invLat(cy+y-h/2,zoom),lon:invLon(cx+x-w/2,zoom)}}
-function scheduleRender(){if(scheduleRender.pending)return;scheduleRender.pending=true;requestAnimationFrame(()=>{scheduleRender.pending=false;render()})}
-function render(){
- let w=map.clientWidth,h=map.clientHeight;if(!w||!h)return;
- let world=256*Math.pow(2,zoom),cx=mercX(center.lon,zoom),cy=mercY(center.lat,zoom);
- let minX=Math.floor((cx-w/2)/256)-1,maxX=Math.floor((cx+w/2)/256)+1,minY=Math.floor((cy-h/2)/256)-1,maxY=Math.floor((cy+h/2)/256)+1;
- let used=new Set(),n=Math.pow(2,zoom);
+function projectAt(lat,lon,c,z){let w=map.clientWidth,h=map.clientHeight,cx=mercX(c.lon,z),cy=mercY(c.lat,z);return{x:w/2+(mercX(lon,z)-cx),y:h/2+(mercY(lat,z)-cy)}}
+function unprojectAt(x,y,c,z){let w=map.clientWidth,h=map.clientHeight,cx=mercX(c.lon,z),cy=mercY(c.lat,z);return{lat:invLat(cy+y-h/2,z),lon:invLon(cx+x-w/2,z)}}
+function project(lat,lon){return projectAt(lat,lon,center,zoom)}
+function unproject(x,y){return unprojectAt(x,y,center,zoom)}
+function centerKeepingPoint(point,x,y,z){let w=map.clientWidth,h=map.clientHeight,cx=mercX(point.lon,z)-(x-w/2),cy=mercY(point.lat,z)-(y-h/2);return{lat:clamp(invLat(cy,z),-85,85),lon:invLon(cx,z)}}
+function scheduleRender(){if(scheduleRender.pending||zoomAnimating||pinch)return;scheduleRender.pending=true;requestAnimationFrame(()=>{scheduleRender.pending=false;render()})}
+function renderTiles(layer,z,c){
+ let w=map.clientWidth,h=map.clientHeight;if(!w||!h)return[];
+ let cx=mercX(c.lon,z),cy=mercY(c.lat,z),minX=Math.floor((cx-w/2)/256)-1,maxX=Math.floor((cx+w/2)/256)+1,minY=Math.floor((cy-h/2)/256)-1,maxY=Math.floor((cy+h/2)/256)+1;
+ let used=new Set(),n=Math.pow(2,z);
  for(let ty=minY;ty<=maxY;ty++)for(let tx=minX;tx<=maxX;tx++){
-   if(ty<0||ty>=n)continue;let wx=((tx%n)+n)%n,key=`${mapStyle}:${zoom}:${wx}:${ty}`;used.add(key);
-   let img=tiles.get(key);if(!img){img=new Image();img.className='tile';img.decoding='async';img.referrerPolicy='no-referrer';img.onload=()=>img.classList.add('loaded');img.src=styles[mapStyle].url(zoom,wx,ty);map.insertBefore(img,map.firstChild);tiles.set(key,img)}
+   if(ty<0||ty>=n)continue;let wx=((tx%n)+n)%n,key=`${mapStyle}:${z}:${wx}:${ty}`;used.add(key);
+   let img=layer.tiles.get(key);
+   if(!img){img=new Image();img.className='tile';img.decoding='async';img.referrerPolicy='no-referrer';img._loaded=false;img.onload=()=>{img._loaded=true;img.classList.add('loaded')};img.src=styles[mapStyle].url(z,wx,ty);layer.el.appendChild(img);layer.tiles.set(key,img)}
    img.style.display='block';img.style.transform=`translate3d(${Math.round(w/2+(tx*256-cx))}px,${Math.round(h/2+(ty*256-cy))}px,0)`;
  }
- for(const [k,img] of tiles){if(!used.has(k))img.style.display='none'}
- if(tiles.size>110){for(const [k,img] of [...tiles]){if(!used.has(k)){img.remove();tiles.delete(k);if(tiles.size<=85)break}}}
+ for(const [k,img]of layer.tiles)if(!used.has(k))img.style.display='none';
+ if(layer.tiles.size>125){for(const [k,img]of [...layer.tiles])if(!used.has(k)){img.remove();layer.tiles.delete(k);if(layer.tiles.size<=95)break}}
+ return [...used];
+}
+function render(){
+ renderTiles(activeLayer,zoom,center);
  if(selected){let p=project(selected.lat,selected.lon);pin.style.display='block';pin.style.left=p.x+'px';pin.style.top=p.y+'px';coords.textContent=selected.lat.toFixed(6)+', '+selected.lon.toFixed(6)}else{pin.style.display='none';coords.textContent='Tap the map to drop a pin'}
  drawRoute();
 }
-function clearTileCache(){for(const [,i]of tiles)i.remove();tiles.clear()}
-function zoomBy(d){let nz=clamp(zoom+d,3,19);if(nz===zoom)return;zoom=nz;scheduleRender()}
-function cycleStyle(){mapStyle=(mapStyle+1)%styles.length;localStorage.setItem('mx_style',mapStyle);clearTileCache();scheduleRender();toast(styles[mapStyle].name+' map')}
-function goHome(){try{let h=MXAndroid.getHome();if(h){let a=h.split(',');center={lat:+a[0],lon:+a[1]};zoom=16;scheduleRender();return}}catch(e){}center={lat:33.3152,lon:44.3661};zoom=13;scheduleRender()}
+function clearLayer(layer){for(const [,i]of layer.tiles)i.remove();layer.tiles.clear();layer.el.style.transition='none';layer.el.style.opacity=layer===activeLayer?'1':'0';layer.el.style.transform='translate3d(0,0,0) scale(1)'}
+function clearTileCache(){clearLayer(layerA);clearLayer(layerB)}
+function tileReadyRatio(layer,keys){if(!keys.length)return 1;let n=0;for(const k of keys){let i=layer.tiles.get(k);if(i&&i._loaded)n++}return n/keys.length}
+function waitTiles(layer,keys,timeout=900){return new Promise(resolve=>{let t=performance.now();(function tick(){if(tileReadyRatio(layer,keys)>=.82||performance.now()-t>=timeout)return resolve();setTimeout(tick,24)})()})}
+function delay(ms){return new Promise(r=>setTimeout(r,ms))}
+async function swapToLayer(incoming,nz,nc,focusX,focusY,oldScale=1,newStartScale=1,oldTranslateX=0,oldTranslateY=0){
+ zoomAnimating=true;cancelAnimationFrame(inertiaId);
+ const outgoing=activeLayer,keys=renderTiles(incoming,nz,nc);
+ incoming.el.style.transition='none';incoming.el.style.transformOrigin=focusX+'px '+focusY+'px';incoming.el.style.transform=`translate3d(0,0,0) scale(${newStartScale})`;incoming.el.style.opacity='0';
+ outgoing.el.style.transformOrigin=focusX+'px '+focusY+'px';
+ if(oldTranslateX||oldTranslateY||oldScale!==1)outgoing.el.style.transform=`translate3d(${oldTranslateX}px,${oldTranslateY}px,0) scale(${oldScale})`;
+ await Promise.resolve();await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
+ const targetScale=Math.pow(2,nz-zoom);
+ outgoing.el.style.transition='transform 220ms cubic-bezier(.22,.61,.36,1),opacity 120ms ease';
+ if(oldScale===1&&oldTranslateX===0&&oldTranslateY===0)outgoing.el.style.transform=`translate3d(0,0,0) scale(${targetScale})`;
+ incoming.el.style.transition='transform 220ms cubic-bezier(.22,.61,.36,1),opacity 120ms ease';
+ incoming.el.style.transform='translate3d(0,0,0) scale(1)';
+ await Promise.all([delay(220),waitTiles(incoming,keys)]);
+ incoming.el.style.opacity='1';outgoing.el.style.opacity='0';
+ await delay(125);
+ zoom=nz;center=nc;activeLayer=incoming;
+ outgoing.el.style.transition='none';outgoing.el.style.opacity='0';outgoing.el.style.transform='translate3d(0,0,0) scale(1)';
+ incoming.el.style.transition='none';incoming.el.style.opacity='1';incoming.el.style.transform='translate3d(0,0,0) scale(1)';
+ zoomAnimating=false;render();
+ if(queuedZoom){let q=queuedZoom;queuedZoom=0;zoomBy(q)}
+}
+function zoomBy(d,x=map.clientWidth/2,y=map.clientHeight/2){
+ d=d>0?1:-1;
+ if(zoomAnimating||pinch){queuedZoom=clamp(queuedZoom+d,-2,2);return}
+ let nz=clamp(zoom+d,3,19);if(nz===zoom)return;
+ let focus=unproject(x,y),nc=centerKeepingPoint(focus,x,y,nz),incoming=activeLayer===layerA?layerB:layerA;
+ let incomingScale=Math.pow(2,zoom-nz);
+ swapToLayer(incoming,nz,nc,x,y,1,incomingScale);
+}
+function cycleStyle(){mapStyle=(mapStyle+1)%styles.length;localStorage.setItem('mx_style',mapStyle);clearTileCache();activeLayer.el.style.opacity='1';scheduleRender();toast(styles[mapStyle].name+' map')}
+function goHome(){if(zoomAnimating||pinch)return;try{let h=MXAndroid.getHome();if(h){let a=h.split(',');center={lat:+a[0],lon:+a[1]};zoom=16;scheduleRender();return}}catch(e){}center={lat:33.3152,lon:44.3661};zoom=13;scheduleRender()}
 function setCenterByDrag(dx,dy){let cx=mercX(center.lon,zoom)-dx,cy=mercY(center.lat,zoom)-dy;center={lat:clamp(invLat(cy,zoom),-85,85),lon:invLon(cx,zoom)};scheduleRender()}
-map.addEventListener('pointerdown',e=>{cancelAnimationFrame(inertiaId);drag={x:e.clientX,y:e.clientY,lastX:e.clientX,lastY:e.clientY,lastT:performance.now(),moved:0};velocity={x:0,y:0};map.setPointerCapture(e.pointerId)});
-map.addEventListener('pointermove',e=>{if(!drag)return;let dx=e.clientX-drag.lastX,dy=e.clientY-drag.lastY,now=performance.now(),dt=Math.max(8,now-drag.lastT);drag.moved+=Math.abs(dx)+Math.abs(dy);velocity={x:dx/dt*16,y:dy/dt*16};drag.lastX=e.clientX;drag.lastY=e.clientY;drag.lastT=now;setCenterByDrag(dx,dy)});
-map.addEventListener('pointerup',e=>{if(!drag)return;let d=drag;drag=null;if(d.moved<9){let r=map.getBoundingClientRect(),p=unproject(e.clientX-r.left,e.clientY-r.top);selected=p;localStorage.setItem('mx_selected',JSON.stringify(selected));if(drawMode)routePoints.push({...p});updateControls();scheduleRender()}else{startInertia()}});
-map.addEventListener('pointercancel',()=>drag=null);
-function startInertia(){let vx=velocity.x,vy=velocity.y;function step(){vx*=.91;vy*=.91;if(Math.abs(vx)+Math.abs(vy)<.18)return;setCenterByDrag(vx,vy);inertiaId=requestAnimationFrame(step)}step()}
-map.addEventListener('wheel',e=>{e.preventDefault();zoomBy(e.deltaY<0?1:-1)},{passive:false});
+function pts(){return [...pointers.values()]}
+function dist(a,b){return Math.hypot(a.x-b.x,a.y-b.y)}
+function mid(a,b){return{x:(a.x+b.x)/2,y:(a.y+b.y)/2}}
+function startPinch(){
+ let p=pts();if(p.length<2)return;cancelAnimationFrame(inertiaId);drag=null;
+ let m=mid(p[0],p[1]);pinch={startDist:Math.max(1,dist(p[0],p[1])),startMid:m,mid:m,scale:1,startCenter:{...center},startZoom:zoom};
+ activeLayer.el.style.transition='none';activeLayer.el.style.transformOrigin=m.x+'px '+m.y+'px';
+}
+async function finishPinch(){
+ if(!pinch)return;let p=pinch;pinch=null;
+ let dz=clamp(Math.round(Math.log2(p.scale)), -1,1),nz=clamp(p.startZoom+dz,3,19);
+ let focus=unprojectAt(p.startMid.x,p.startMid.y,p.startCenter,p.startZoom),nc=centerKeepingPoint(focus,p.mid.x,p.mid.y,nz);
+ let incoming=activeLayer===layerA?layerB:layerA;
+ let keys=renderTiles(incoming,nz,nc);incoming.el.style.transition='none';incoming.el.style.opacity='0';incoming.el.style.transform='translate3d(0,0,0) scale(1)';
+ zoomAnimating=true;await waitTiles(incoming,keys,900);
+ incoming.el.style.transition='opacity 130ms ease';activeLayer.el.style.transition='opacity 130ms ease';incoming.el.style.opacity='1';activeLayer.el.style.opacity='0';await delay(135);
+ let old=activeLayer;activeLayer=incoming;zoom=nz;center=nc;
+ old.el.style.transition='none';old.el.style.opacity='0';old.el.style.transform='translate3d(0,0,0) scale(1)';incoming.el.style.transition='none';incoming.el.style.opacity='1';
+ zoomAnimating=false;render();
+}
+map.addEventListener('pointerdown',e=>{
+ pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});map.setPointerCapture(e.pointerId);cancelAnimationFrame(inertiaId);
+ if(pointers.size===1&&!zoomAnimating){drag={x:e.clientX,y:e.clientY,lastX:e.clientX,lastY:e.clientY,lastT:performance.now(),moved:0};velocity={x:0,y:0}}
+ else if(pointers.size===2&&!zoomAnimating)startPinch();
+});
+map.addEventListener('pointermove',e=>{
+ if(!pointers.has(e.pointerId))return;pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
+ if(pinch&&pointers.size>=2){let p=pts(),m=mid(p[0],p[1]),s=clamp(dist(p[0],p[1])/pinch.startDist,.52,1.92);pinch.mid=m;pinch.scale=s;let dx=m.x-pinch.startMid.x,dy=m.y-pinch.startMid.y;activeLayer.el.style.transformOrigin=pinch.startMid.x+'px '+pinch.startMid.y+'px';activeLayer.el.style.transform=`translate3d(${dx}px,${dy}px,0) scale(${s})`;return}
+ if(!drag||zoomAnimating)return;let dx=e.clientX-drag.lastX,dy=e.clientY-drag.lastY,now=performance.now(),dt=Math.max(8,now-drag.lastT);drag.moved+=Math.abs(dx)+Math.abs(dy);velocity={x:dx/dt*16,y:dy/dt*16};drag.lastX=e.clientX;drag.lastY=e.clientY;drag.lastT=now;setCenterByDrag(dx,dy)
+});
+function endPointer(e){
+ pointers.delete(e.pointerId);
+ if(pinch){if(pointers.size<2)finishPinch();return}
+ if(!drag)return;let d=drag;drag=null;if(d.moved<9&&!zoomAnimating){let r=map.getBoundingClientRect(),p=unproject(e.clientX-r.left,e.clientY-r.top);selected=p;localStorage.setItem('mx_selected',JSON.stringify(selected));if(drawMode)routePoints.push({...p});updateControls();scheduleRender()}else if(!zoomAnimating){startInertia()}
+}
+map.addEventListener('pointerup',endPointer);map.addEventListener('pointercancel',endPointer);
+function startInertia(){let vx=velocity.x,vy=velocity.y;function step(){if(zoomAnimating||pinch)return;vx*=.91;vy*=.91;if(Math.abs(vx)+Math.abs(vy)<.18)return;setCenterByDrag(vx,vy);inertiaId=requestAnimationFrame(step)}step()}
+map.addEventListener('wheel',e=>{e.preventDefault();if(pinch)return;wheelAccum+=e.deltaY;let now=performance.now();if(Math.abs(wheelAccum)>38&&now-lastWheelZoom>170){let r=map.getBoundingClientRect();zoomBy(wheelAccum<0?1:-1,e.clientX-r.left,e.clientY-r.top);lastWheelZoom=now;wheelAccum=0}},{passive:false});
 
 function drawRoute(){let c=document.getElementById('routeCanvas'),d=devicePixelRatio||1,w=map.clientWidth,h=map.clientHeight;c.width=w*d;c.height=h*d;c.style.width=w+'px';c.style.height=h+'px';let g=c.getContext('2d');g.scale(d,d);g.clearRect(0,0,w,h);if(routePoints.length<2)return;g.lineWidth=4;g.lineCap='round';g.lineJoin='round';g.strokeStyle='#55d9cd';g.shadowColor='rgba(0,0,0,.55)';g.shadowBlur=5;g.beginPath();routePoints.forEach((p,i)=>{let q=project(p.lat,p.lon);i?g.lineTo(q.x,q.y):g.moveTo(q.x,q.y)});g.stroke()}
 
