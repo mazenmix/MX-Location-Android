@@ -336,8 +336,12 @@ public class MockLocationService extends Service {
     private void persist() {
         JSONArray arr = new JSONArray();
         for (Point p : route) {
-            JSONArray q = new JSONArray();
-            q.put(p.lat); q.put(p.lon); arr.put(q);
+            try {
+                JSONArray q = new JSONArray();
+                q.put(p.lat);
+                q.put(p.lon);
+                arr.put(q);
+            } catch (JSONException ignored) {}
         }
         getSharedPreferences(PREFS, MODE_PRIVATE).edit()
                 .putBoolean("running", running)
