@@ -75,6 +75,31 @@ public final class UpdateManager {
             }
 
             String fileName = "MX-Location-Android-update-" + System.currentTimeMillis() + ".apk";
+            // Validate the remote APK before handing it to DownloadManager. This prevents
+            // a stale/missing GitHub asset from leaving the UI stuck on "download started".
+            HttpURLConnection probe = null;
+            try {
+                probe = (HttpURLConnection) new URL(url + (url.contains("?") ? "&" : "?") +
+                        "t=" + System.currentTimeMillis()).openConnection();
+                probe.setConnectTimeout(8000);
+                probe.setReadTimeout(8000);
+                probe.setInstanceFollowRedirects(true);
+                probe.setRequestMethod("GET");
+                probe.setRequestProperty("Range", "bytes=0-3");
+                probe.setRequestProperty("Cache-Control", "no-cache");
+                probe.setRequestProperty("User-Agent", "MX-Location-Android/" + BuildConfig.VERSION_NAME);
+                int probeCode = probe.getResponseCode();
+                String type = probe.getContentType();
+                if (probeCode < 200 || probeCode >= 400) {
+                    throw new IOException("Update file HTTP " + probeCode);
+                }
+                if (type != null && type.toLowerCase().contains("text/html")) {
+                    throw new IOException("Update file is not an APK");
+                }
+            } finally {
+                if (probe != null) probe.disconnect();
+            }
+
             DownloadManager.Request r = new DownloadManager.Request(Uri.parse(url));
             r.setTitle("MX Location update");
             r.setDescription("Downloading the latest Android version");
@@ -89,7 +114,7 @@ public final class UpdateManager {
                     .putLong(KEY_DOWNLOAD_ID, id).apply();
 
             pushDownloadState(activity, "downloading", 0, "Downloading update…");
-            activity.toast("Update download started.");
+            activity.toast("Downloading update…");
             startMonitor(activity, id);
         } catch (Exception e) {
             clearPending(activity);
@@ -199,7 +224,7 @@ public final class UpdateManager {
                         if (c != null) c.close();
                     }
 
-                    if (SystemClock.elapsedRealtime() - started > 15 * 60 * 1000L) {
+                    if (SystemClock.elapsedRealtime() - started > 3 * 60 * 1000L) {
                         pushDownloadState(activity, "paused", lastProgress,
                                 "Download is taking longer than expected…");
                         return;
