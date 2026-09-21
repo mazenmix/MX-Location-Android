@@ -1,6 +1,6 @@
 {
-  "versionCode": 6,
-  "versionName": "1.1.1",
+  "versionCode": 7,
+  "versionName": "1.1.2",
   "apkUrl": "https://raw.githubusercontent.com/mazenmix/MX-Location-Android/main/releases/MX-Location-Android.apk",
-  "notes": "New official MX adaptive launcher icon for Android, optimized for device launcher masks and Android 13 themed icons."
+  "notes": "Smoother GPU-accelerated map zoom and pinch gestures, reduced tile flicker, and improved map transitions."
 }
