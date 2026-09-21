@@ -1,0 +1,50 @@
+name: Publish staged MX Location APK
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - ".publish/v1.1.2/**"
+      - ".github/workflows/publish-staged.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Rebuild staged signed APK
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p releases
+          cat .publish/v1.1.2/part*.b64 | tr -d '\n\r ' | base64 -d > releases/MX-Location-Android.apk
+          echo "963cbe7082881eefc8d4845f0544cdbebb35665e515cbbed3b9ec1deb6a444d6  releases/MX-Location-Android.apk" | sha256sum -c -
+          printf '%s\n' '963cbe7082881eefc8d4845f0544cdbebb35665e515cbbed3b9ec1deb6a444d6  MX-Location-Android.apk' > releases/SHA256.txt
+          cat > version.json <<'EOF'
+          {
+            "versionCode": 7,
+            "versionName": "1.1.2",
+            "apkUrl": "https://raw.githubusercontent.com/mazenmix/MX-Location-Android/main/releases/MX-Location-Android.apk",
+            "notes": "Smoother map zoom with GPU transitions, pinch zoom, tile preloading and reduced flicker."
+          }
+          EOF
+
+      - name: Publish update channel
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add releases/MX-Location-Android.apk releases/SHA256.txt version.json
+          if git diff --cached --quiet; then
+            echo "Nothing to publish."
+            exit 0
+          fi
+          git commit -m "Publish MX Location Android v1.1.2 update"
+          git push
