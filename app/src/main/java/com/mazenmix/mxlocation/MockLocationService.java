@@ -52,7 +52,7 @@ public class MockLocationService extends Service {
         super.onCreate();
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         createChannel();
-        workerThread = new HandlerThread("MXLocationWorker", Process.THREAD_PRIORITY_MORE_FAVORABLE);
+        workerThread = new HandlerThread("MXLocationWorker", android.os.Process.THREAD_PRIORITY_MORE_FAVORABLE);
         workerThread.start();
         worker = new Handler(workerThread.getLooper());
         ensureWakeLock();
