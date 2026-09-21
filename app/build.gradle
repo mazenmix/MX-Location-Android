@@ -29,3 +29,5 @@ android {
         targetCompatibility JavaVersion.VERSION_17
     }
 }
+
+// MX Location Android build configuration.
