@@ -1,0 +1,31 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'com.mazenmix.mxlocation'
+    compileSdk 35
+
+    defaultConfig {
+        applicationId 'com.mazenmix.mxlocation'
+        minSdk 26
+        targetSdk 35
+        versionCode 5
+        versionName '1.1.0'
+    }
+
+    buildTypes {
+        debug {
+            debuggable true
+        }
+        release {
+            minifyEnabled false
+            shrinkResources false
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}
